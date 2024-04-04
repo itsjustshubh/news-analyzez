@@ -55,11 +55,16 @@ def scrape_content(url, selectors):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     content = {'url': url}
-    domain = url.split('/')[2].replace('www.', '')
+    domain = url.split('/')[2].replace('www.', '').split('.')[0]
 
     if domain in selectors:
+        # Extract logo path if available
+        logo_path = selectors[domain].get("logo", "default_logo_path")
+        content['logo'] = logo_path
+
         for key, selector in selectors[domain].items():
-            content[key] = extract_content(soup, selector)
+            if key != "logo":  # Skip the "logo" entry
+                content[key] = extract_content(soup, selector)
     else:
         print(f"No selectors available for domain: {domain}")
         return None

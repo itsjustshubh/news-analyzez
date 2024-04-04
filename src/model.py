@@ -1,5 +1,6 @@
 # Import necessary modules and functions
 import json
+import re
 from transformers import pipeline
 import language_tool_python
 
@@ -86,33 +87,70 @@ def update_article_file(article_json):
         print("Filename not found in article JSON.")
 
 
-def process_article(article_json, print_summary=True):
+def create_image_prompt(summary):
+    """
+    Creates a more refined prompt for an image to be used as a thumbnail for the story.
+
+    Args:
+        summary (str): The summary of the article.
+
+    Returns:
+        str: A descriptive prompt for creating an image.
+    """
+    # Basic implementation to extract key nouns and actions
+    # Regex pattern to capture simple nouns and verbs. This is a basic pattern and may not cover all cases.
+    pattern = r'\b([A-Z][a-z]*\s*(?:[A-Z][a-z]*)?)\b|([a-z]*ing\b)'
+    matches = re.findall(pattern, summary)
+
+    # Extract unique words and avoid small common nouns or verbs
+    unique_words = set([m[0] or m[1]
+                       for m in matches if len(m[0] or m[1]) > 3])
+
+    # Create the prompt
+    if unique_words:
+        prompt = "Illustrate: " + ", ".join(unique_words)
+    else:
+        prompt = "Illustrate the concept: " + summary
+
+    return prompt
+
+
+def process_article(article_json, print_summary=True, print_image_prompt=True):
     """
     Processes the article JSON to add a summary and then saves it back to the corresponding file.
+    Additionally, generates and corrects the grammar of an image prompt based on the summary.
 
     Args:
         article_json (dict): The article data in JSON format.
+        print_summary (bool): Flag to print the summary.
+        print_image_prompt (bool): Flag to print the image prompt.
 
     Returns:
-        dict: The article data updated with a summary.
+        dict: The article data updated with a summary and image prompt.
     """
     content = article_json.get('content', '')
     summary = generate_summary(content)
     article_json['summary'] = summary
     update_article_file(article_json)
-    print(f"Summary added and file updated.")
 
     if print_summary:
         print(f"Summary generated: {summary}")
+
+    image_prompt = create_image_prompt(summary)
+    grammatically_correct_image_prompt = correct_grammar(
+        image_prompt)  # Correct the grammar of the image prompt
+    article_json['image_prompt'] = grammatically_correct_image_prompt
+
+    if print_image_prompt:
+        print(f"Image Prompt: {grammatically_correct_image_prompt}")
 
     return article_json
 
 
 if __name__ == "__main__":
     selectors = load_selectors()
-    urls = sample_urls()  # Ensure this returns a list of valid URLs
-    articles_data = fetch_articles(urls[0], selectors)  # Fetch article data
+    urls = sample_urls()
+    articles_data = fetch_articles(urls[0], selectors)
 
-    # Process each article to add a summary and update its file
     for article in articles_data:
-        process_article(article, print_summary=True)
+        process_article(article, print_summary=True, print_image_prompt=True)
