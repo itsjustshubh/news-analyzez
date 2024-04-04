@@ -131,7 +131,6 @@ def process_article(article_json, print_summary=True, print_image_prompt=True):
     content = article_json.get('content', '')
     summary = generate_summary(content)
     article_json['summary'] = summary
-    update_article_file(article_json)
 
     if print_summary:
         print(f"Summary generated: {summary}")
@@ -143,6 +142,8 @@ def process_article(article_json, print_summary=True, print_image_prompt=True):
 
     if print_image_prompt:
         print(f"Image Prompt: {grammatically_correct_image_prompt}")
+
+    update_article_file(article_json)
 
     return article_json
 
