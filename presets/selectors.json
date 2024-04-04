@@ -1,0 +1,94 @@
+{
+    "economictimes.indiatimes.com": {
+        "title": {"tag": "h1", "class": "artTitle"},
+        "date": {"tag": "time", "class": "jsdtTime"},
+        "text": {"tag": "div", "class": "artText"}
+    },
+    "theregister.com": {
+          "title": {
+              "tag": "h1",
+              "class": "header_right"
+          },
+          "subtitle": {
+              "tag": "h2",
+              "class": "header_right"
+          },
+          "author": {
+              "tag": "a",
+              "class": "byline"
+          },
+          "content": {
+              "tag": "div",
+              "id": "body"
+          }
+      },
+      "cointelegraph.com": {
+        "author": {
+            "tag": "div",
+            "class": "post-meta__author-name"
+        },
+        "date": {
+            "tag": "time",
+            "class": "post-meta__publish-date"
+        },
+        "title": {
+            "tag": "h1",
+            "class": "post__title"
+        },
+        "lead_text": {
+            "tag": "p",
+            "class": "post__lead"
+        },
+        "content": {
+            "tag": "div",
+            "class": "post-content"
+        },
+        "tags": {
+            "tag": "ul",
+            "class": "tags-list__list"
+        }
+    },
+    "marketbeat.com": {
+        "title": {
+          "tag": "h1",
+          "class": "PageTitleHOne"
+        },
+        "content": {
+          "tag": "div",
+          "class": "body-copy lh-loose article-page"
+        }
+    },
+    "hindustantimes.com": {
+        "title": {
+            "tag": "h1",
+            "class": "hdg1"
+        },
+        "author": {
+            "tag": "a",
+            "class": "authorNameClick"
+        },
+        "content": {
+            "tag": "div",
+            "class": "detail"
+          }
+    },
+    "ndtv.com": {
+        "title": {
+            "tag": "h1",
+            "class": "sp-ttl"
+        },
+        "author": {
+            "tag": "span",
+            "itemprop": "author"
+        },
+        "date": {
+            "tag": "span",
+            "itemprop": "dateModified"
+        },
+        "content": {
+            "tag": "div",
+            "itemprop": "articleBody"
+        }
+    }
+  }
+  
